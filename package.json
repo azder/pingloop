@@ -1,0 +1,23 @@
+{
+    "name": "pingloop",
+    "version": "0.0.1",
+    "description": "a PING LOOP",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "ping",
+        "loop",
+        "pingloop"
+    ],
+    "author": "azhder@gmail.com",
+    "license": "MIT",
+    "dependencies": {
+        "@azhder/eslint-config-azder": "0.0.3",
+        "@azhder/nfun": "0.0.7",
+        "@azhder/pingman": "0.0.4",
+        "@azhder/taglog": "0.0.1",
+        "eslint": "^4.8.0"
+    }
+}
