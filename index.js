@@ -2,7 +2,7 @@
 
 const {objof, df} = require('@azhder/nfun');
 const pingman = require('@azhder/pingman');
-const {deblog} = require('@azhder/taglog');
+const {deblog, inflog} = require('@azhder/taglog');
 
 const {RECON} = require('./lib/state');
 const {percent} = require('./lib/check');
@@ -29,14 +29,15 @@ const failed = (
 const localhost = df(false, conf.localhost);
 const delay = df(1000, 1000 * objof(conf.cycle).delay);
 
+const info = inflog('reconnect');
 state.on(
     RECON,
     // eslint-disable-next-line no-unused-vars
-    (begin, end, data) => post(
-        `здраво, јас сум компјутерот на @azder 
-        и немав интернет од ${iso(begin)} до ${iso(end)}.
-        повеќе инфо на: `
-    )
+    (begin, end, data) => post(info(
+        'Јас сум компјутерот на @azder и ' +
+        `немав интернет од ${iso(begin)} до ${iso(end)}. ` +
+        'Повеќе на: http://at.azder.mk/pingloop'
+    ))
 );
 
 const pingloop = (async () => {
