@@ -1,0 +1,19 @@
+{
+    "localhost": true,
+    "ips": [
+        "8.8.8.8",
+        "208.67.222.222"
+    ],
+    "minfail": 0,
+    "maxfail": 0.8,
+    "patience": 10,
+    "cycle": {
+        "delay": 3
+    },
+    "twitter": {
+        "consumer_key": "",
+        "consumer_secret": "",
+        "access_token": "",
+        "access_token_secret": ""
+    }
+}

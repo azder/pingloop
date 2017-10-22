@@ -1,6 +1,6 @@
 {
     "name": "pingloop",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "a PING LOOP",
     "main": "index.js",
     "scripts": {
@@ -11,13 +11,24 @@
         "loop",
         "pingloop"
     ],
-    "author": "azhder@gmail.com",
+    "author": "azder <azhder@gmail.com>",
     "license": "MIT",
     "dependencies": {
-        "@azhder/eslint-config-azder": "0.0.3",
-        "@azhder/nfun": "0.0.7",
-        "@azhder/pingman": "0.0.4",
+        "@azhder/nfun": "0.0.8",
+        "@azhder/pingman": "0.0.5",
         "@azhder/taglog": "0.0.1",
-        "eslint": "^4.8.0"
-    }
+        "twit": "^2.2.9"
+    },
+    "devDependencies": {
+        "@azhder/eslint-config-azder": "0.0.3",
+        "eslint": "^4.9.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/azder/pingloop.git"
+    },
+    "bugs": {
+        "url": "https://github.com/azder/pingloop/issues"
+    },
+    "homepage": "https://github.com/azder/pingloop#readme"
 }

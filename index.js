@@ -4,54 +4,59 @@ const {objof, df} = require('@azhder/nfun');
 const pingman = require('@azhder/pingman');
 const {deblog} = require('@azhder/taglog');
 
+const {RECON} = require('./lib/state');
 const {percent} = require('./lib/check');
-const {state, RECON, SHORT, LONG} = require('./lib/State');
+const iso = require('./lib/iso');
 
-require('./lib/proc'); // setup process listeners
-
+const procprep = require('./lib/procprep');
+const stateprep = require('./lib/stateprep');
+const ipsprep = require('./lib/ipsprep');
+const postprep = require('./lib/postprep');
 
 const conf = objof(require('./pingloop.json'));
 
-/** @type [] */
-const ips = df([], conf.ips);
-const localhost = df(false, conf.localhost);
+procprep(conf);
 
-if (localhost) {
-    ips.unshift('127.0.0.1');
-}
+/** @type State|EventEmitter */
+const state = stateprep(conf);
+const ips = ipsprep(conf);
+const post = postprep(conf);
 
 const failed = (
     p => df(0.10, conf.minfail) < p && p < df(0.75, conf.maxfail)
 );
 
+const localhost = df(false, conf.localhost);
+const delay = df(1000, 1000 * objof(conf.cycle).delay);
 
-const log = deblog('cycle');
-
-/** @type State|EventEmitter */
-const s = state({patience: conf.patience});
-
-const echo = (
-    (begin, end) => log(`current state: ${s}`)
+state.on(
+    RECON,
+    // eslint-disable-next-line no-unused-vars
+    (begin, end, data) => post(
+        `здраво, јас сум компјутерот на @azder 
+        и немав интернет од ${iso(begin)} до ${iso(end)}.
+        повеќе инфо на: `
+    )
 );
-
-s.on(SHORT, echo);
-s.on(LONG, echo);
-s.on(RECON, echo);
 
 const pingloop = (async () => {
 
+    const log = deblog(['cycle', (new Date()).toISOString()]);
+
     const results = await pingman(null, ips);
     const rate = percent(results);
+    // const rate = mockpercent.next().value;
 
-    log(`at: ${(new Date()).toISOString()}, success rate: ${rate * 100}%`);
+    log(`success rate: ${rate * 100}%`);
 
     if (!rate && localhost) {
         log('ALL pings failed, even localhost. Maybe something else is wrong');
     }
 
-    s[failed(rate) ? 'disconnect' : 'connect']();
+    state[failed(rate) ? 'disconnect' : 'connect'](results);
 
-    setTimeout(pingloop, 5000);
+    // loop again
+    setTimeout(pingloop, delay);
 
 });
 
